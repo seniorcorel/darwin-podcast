@@ -10,5 +10,7 @@
   "owner_name": "seniorcorel",
   "owner_email": "seniorcorel@hotmail.com",
   "podcast_image": "https://seniorcorel.github.io/darwin-podcast/cover.jpg",
+  "start_date": "2026-09-02",
+  "rolling_days": 0,
   "max_episodes": 0
 }

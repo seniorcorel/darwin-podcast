@@ -95,7 +95,20 @@ def main():
         if url.startswith("http") and url.endswith(".mp3"):
             valid_rows.append(row)
 
-    print(f"Total valid audio rows found: {len(valid_rows)}")
+    print(f"Total valid audio rows in sheet: {len(valid_rows)}")
+
+    # Filter by date if configured
+    rolling_days = config.get("rolling_days", 0)
+    start_date_str = config.get("start_date", "").strip()
+
+    if rolling_days > 0:
+        cutoff_dt = datetime.now(TZ_UY) - timedelta(days=rolling_days)
+        valid_rows = [r for r in valid_rows if parse_date(r.get("Fecha", "")) >= cutoff_dt]
+        print(f"Filtered by rolling_days ({rolling_days} days): {len(valid_rows)} episodes.")
+    elif start_date_str:
+        start_dt = datetime.strptime(start_date_str, "%Y-%m-%d").replace(tzinfo=TZ_UY)
+        valid_rows = [r for r in valid_rows if parse_date(r.get("Fecha", "")) >= start_dt]
+        print(f"Filtered from start_date ({start_date_str}): {len(valid_rows)} episodes.")
 
     # Google Sheets is oldest first, podcast feeds are newest first
     valid_rows.reverse()
@@ -105,7 +118,7 @@ def main():
         valid_rows = valid_rows[:max_episodes]
         print(f"Limiting to latest {max_episodes} episodes.")
 
-    # Cache lengths for the top 15 newest episodes if not cached
+    # Cache lengths for the newest episodes if not cached
     updated_cache = False
     for row in valid_rows[:15]:
         url = row["URL"].strip()
@@ -156,7 +169,7 @@ def main():
     owner_name = ET.SubElement(owner, "{http://www.itunes.com/dtds/podcast-1.0.dtd}name")
     owner_name.text = config.get("owner_name", "Darwin Desbocatti")
     owner_email = ET.SubElement(owner, "{http://www.itunes.com/dtds/podcast-1.0.dtd}email")
-    owner_email.text = config.get("owner_email", "tu_email@ejemplo.com")
+    owner_email.text = config.get("owner_email", "seniorcorel@hotmail.com")
 
     image_url = config.get("podcast_image", "")
     if image_url:
@@ -224,8 +237,8 @@ def main():
     with open(output_path, "w", encoding="utf-8") as f:
         f.write(xml_header + xml_data)
 
-    file_size_mb = os.path.getsize(output_path) / (1024 * 1024)
-    print(f"Generated {output_path} successfully ({file_size_mb:.2f} MB, {len(valid_rows)} episodes).")
+    file_size_kb = os.path.getsize(output_path) / 1024
+    print(f"Generated {output_path} successfully ({file_size_kb:.1f} KB, {len(valid_rows)} episodes).")
 
 if __name__ == "__main__":
     main()
