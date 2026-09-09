@@ -11,12 +11,12 @@
     <itunes:type>episodic</itunes:type>
     <itunes:explicit>no</itunes:explicit>
     <itunes:owner>
-      <itunes:name>Darwin Desbocatti Podcast</itunes:name>
-      <itunes:email>tu_email@ejemplo.com</itunes:email>
+      <itunes:name>seniorcorel</itunes:name>
+      <itunes:email>seniorcorel@hotmail.com</itunes:email>
     </itunes:owner>
-    <itunes:image href="https://raw.githubusercontent.com/darwin-podcast/assets/main/cover.jpg" />
+    <itunes:image href="https://seniorcorel.github.io/darwin-podcast/cover.jpg" />
     <image>
-      <url>https://raw.githubusercontent.com/darwin-podcast/assets/main/cover.jpg</url>
+      <url>https://seniorcorel.github.io/darwin-podcast/cover.jpg</url>
       <title>Darwin Desbocatti - No Toquen Nada</title>
       <link>https://delsol.uy/notoquennada</link>
     </image>
