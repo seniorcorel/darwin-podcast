@@ -197,13 +197,19 @@ def main():
         length = cache.get(ep_url, 0)
         guid_str = ep_url
 
+        date_prefix = ep_dt.strftime("%Y-%m-%d")
+        if not ep_title.startswith(date_prefix):
+            full_title = f"{date_prefix} - {ep_title}"
+        else:
+            full_title = ep_title
+
         item = ET.SubElement(channel, "item")
         
         ititle = ET.SubElement(item, "title")
-        ititle.text = ep_title
+        ititle.text = full_title
 
         itunes_title = ET.SubElement(item, "{http://www.itunes.com/dtds/podcast-1.0.dtd}title")
-        itunes_title.text = ep_title
+        itunes_title.text = full_title
 
         idesc = ET.SubElement(item, "description")
         idesc.text = ep_desc
