@@ -1,0 +1,14 @@
+{
+  "sheet_csv_url": "https://docs.google.com/spreadsheets/d/1Ve2VEklvBcxZXR30-UAdG59TMywzUDovEpbBYM0tFLA/export?format=csv",
+  "podcast_title": "Darwin Desbocatti - No Toquen Nada",
+  "podcast_description": "Columna diaria de Darwin Desbocatti en el programa No Toquen Nada (DelSol 99.5 FM, Montevideo, Uruguay).",
+  "podcast_link": "https://delsol.uy/notoquennada",
+  "podcast_language": "es-UY",
+  "podcast_author": "Darwin Desbocatti",
+  "podcast_category": "Comedy",
+  "podcast_explicit": "no",
+  "owner_name": "Darwin Desbocatti Podcast",
+  "owner_email": "tu_email@ejemplo.com",
+  "podcast_image": "https://raw.githubusercontent.com/darwin-podcast/assets/main/cover.jpg",
+  "max_episodes": 0
+}
