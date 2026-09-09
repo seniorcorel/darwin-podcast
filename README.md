@@ -6,29 +6,25 @@ Los audios ya están alojados públicamente en la CDN de DelSol (`https://cdn.dl
 
 ---
 
-## 🚀 Puesta en marcha paso a paso
+## 🚀 Puesta en marcha
 
 ### 1. Personalizar `config.json`
 Abre [config.json](file:///root/scripts/darwin-podcast-feed/config.json) y ajusta:
-* `owner_email`: **(MUY IMPORTANTE)** Pon tu correo electrónico real. Spotify te enviará un código de verificación de 8 dígitos a este correo cuando registres el podcast.
-* `podcast_image`: URL de una imagen cuadrada (mínimo 1400x1400 px, máx 3000x3000 px). Es obligatoria para Spotify.
+* `owner_email`: **(MUY IMPORTANTE)** Pon el correo electrónico de tu cuenta de Spotify. Spotify te enviará un código de verificación de 8 dígitos a este correo cuando confirmes la redirección.
+* `podcast_image`: URL de tu imagen de portada (mínimo 1400x1400 px).
 * `podcast_title`: Nombre con el que quieres que aparezca el podcast en Spotify.
 
 ### 2. Subir a GitHub
-1. Crea un nuevo repositorio en GitHub (puede ser público).
-2. Sube todos los archivos de esta carpeta:
-   ```bash
-   git init
-   git add .
-   git commit -m "Inicializar podcast RSS"
-   git branch -M main
-   git remote add origin https://github.com/TU_USUARIO/TU_REPOSITORIO.git
-   git push -u origin main
-   ```
+El repositorio ya está inicializado y vinculado a `git@github.com:seniorcorel/darwin-podcast.git`.
+Solo corre:
+```bash
+cd /root/scripts/darwin-podcast-feed
+git push -u origin main
+```
 
 ### 3. Habilitar permisos de escritura para GitHub Actions
-Para que el bot pueda actualizar automáticamente el archivo `feed.xml`:
-1. En tu repositorio de GitHub, ve a **Settings** > **Actions** > **General**.
+Para que el bot de GitHub Actions pueda actualizar automáticamente el archivo `feed.xml`:
+1. En tu repositorio [seniorcorel/darwin-podcast](https://github.com/seniorcorel/darwin-podcast), ve a **Settings** > **Actions** > **General**.
 2. En la sección **Workflow permissions**, selecciona **Read and write permissions**.
 3. Haz clic en **Save**.
 
@@ -36,21 +32,15 @@ Para que el bot pueda actualizar automáticamente el archivo `feed.xml`:
 1. En tu repositorio, ve a **Settings** > **Pages**.
 2. En **Build and deployment** > **Branch**, selecciona `main` y la carpeta `/ (root)`.
 3. Haz clic en **Save**.
-4. En 1 o 2 minutos tendrás tu URL pública del feed:
-   `https://TU_USUARIO.github.io/TU_REPOSITORIO/feed.xml`
+4. En 1 o 2 minutos tu feed estará disponible públicamente en:
+   **`https://seniorcorel.github.io/darwin-podcast/feed.xml`**
 
-### 5. Registrar en Spotify for Creators
-1. Entra a [creators.spotify.com](https://creators.spotify.com).
-2. Haz clic en **Empezar** o **Añadir nuevo show**.
-3. Selecciona **"Ya tengo un feed RSS"** (o *"I already have an RSS feed"*).
-4. Pega tu URL de GitHub Pages (`https://TU_USUARIO.github.io/TU_REPOSITORIO/feed.xml`).
-5. Spotify leerá el feed y enviará un código de verificación al correo que pusiste en `owner_email`.
-6. Ingresa el código y confirma.
+### 5. Redirigir tu podcast en Spotify for Creators
+1. Entra en tu panel de [creators.spotify.com](https://creators.spotify.com).
+2. Ve a los **Settings (Configuración)** de tu podcast existente.
+3. Busca la sección **"Redirect your podcast" (Redirigir tu podcast)**.
+4. Pega la URL de tu feed:
+   `https://seniorcorel.github.io/darwin-podcast/feed.xml`
+5. Spotify enviará un código de verificación a tu correo (`owner_email`). Ingrésalo y confirma.
 
----
-
-## ⏰ ¿Cómo se actualiza?
-* El flujo de GitHub Actions (`.github/workflows/update_feed.yml`) se ejecuta de lunes a viernes dos veces al día (12:00 y 15:00 de Uruguay).
-* Si hay columnas nuevas en el Google Sheet, las agrega a `feed.xml`, hace commit y lo sube.
-* GitHub Pages se actualiza en segundos, y Spotify detecta los nuevos episodios automáticamente.
-* También puedes ejecutarlo manualmente en cualquier momento desde la pestaña **Actions** en GitHub haciendo clic en **Run workflow**.
+¡Y listo! Tu podcast existente en Spotify comenzará a actualizarse automáticamente todos los días de lunes a viernes.
