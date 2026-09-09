@@ -2,6 +2,7 @@ import csv
 import json
 import os
 import sys
+import re
 import urllib.request
 import urllib.parse
 from datetime import datetime, timezone, timedelta
@@ -187,8 +188,15 @@ def main():
 
     # Add items
     for row in valid_rows:
-        ep_title = row.get("Titulo", "").strip() or "Columna de Darwin Desbocatti"
-        ep_desc = row.get("Descripcion", "").strip() or ep_title
+        raw_title = row.get("Titulo", "").strip() or "Columna de Darwin Desbocatti"
+        title_no_date = re.sub(r"^\d{4}-\d{2}-\d{2}\s*-\s*", "", raw_title).strip()
+        raw_desc = row.get("Descripcion", "").strip()
+
+        if raw_desc and raw_desc != title_no_date:
+            combined_desc = f"{title_no_date}\n\n{raw_desc}"
+        else:
+            combined_desc = title_no_date
+
         ep_url = row.get("URL", "").strip()
         ep_date_str = row.get("Fecha", "").strip()
         ep_dt = parse_date(ep_date_str)
@@ -198,10 +206,7 @@ def main():
         guid_str = ep_url
 
         date_prefix = ep_dt.strftime("%Y-%m-%d")
-        if not ep_title.startswith(date_prefix):
-            full_title = f"{date_prefix} - {ep_title}"
-        else:
-            full_title = ep_title
+        full_title = f"{date_prefix} - {title_no_date}"
 
         item = ET.SubElement(channel, "item")
         
@@ -212,10 +217,10 @@ def main():
         itunes_title.text = full_title
 
         idesc = ET.SubElement(item, "description")
-        idesc.text = ep_desc
+        idesc.text = combined_desc
 
         itunes_summary = ET.SubElement(item, "{http://www.itunes.com/dtds/podcast-1.0.dtd}summary")
-        itunes_summary.text = ep_desc
+        itunes_summary.text = combined_desc
 
         ilink = ET.SubElement(item, "link")
         ilink.text = ep_url
